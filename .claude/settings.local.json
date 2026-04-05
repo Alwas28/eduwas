@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php artisan:*)",
+      "Bash(php -l \"e:/Project/LMS-Edu/app/Http/Controllers/Instruktur/MateriController.php\")",
+      "Bash(del \"e:\\\\Project\\\\LMS-Edu\\\\app\\\\Models\\\\MateriRangkuman.php\")",
+      "Bash(composer show:*)",
+      "Bash(composer require:*)",
+      "Bash(php -l resources/views/profile/show.blade.php)",
+      "Bash(echo \"exit $?\")",
+      "Bash(xargs grep:*)"
+    ]
+  }
+}

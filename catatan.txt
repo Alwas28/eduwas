@@ -1,0 +1,4 @@
+open router= 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
+
+
+alert muncul terus walaupun pelanggaran hanya 1 dan bahkan sudah selesai ujian, tolong perbaiki. kalau tidak diklik dalam waktu 10 detik hilangkan modal alertnya. jika dalam 10 detik itu ada pelanggar baru maka ganti alert dengan nama pelanggar baru. 
