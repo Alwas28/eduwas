@@ -2,3 +2,19 @@ open router= sk-or-v1-4d488dacfeb3bf58cc33f429cdd85893d31a393c859422bb9f4cbb30c9
 
 
 alert muncul terus walaupun pelanggaran hanya 1 dan bahkan sudah selesai ujian, tolong perbaiki. kalau tidak diklik dalam waktu 10 detik hilangkan modal alertnya. jika dalam 10 detik itu ada pelanggar baru maka ganti alert dengan nama pelanggar baru. 
+
+Untuk ke depannya, setiap kali ada perubahan, cukup jalankan 3 perintah ini:
+
+
+git add .
+git commit -m "deskripsi perubahan"
+git push
+Atau lebih spesifik hanya file tertentu:
+
+
+git add app/Http/Controllers/Mahasiswa/NilaiController.php
+git commit -m "fix: perbaiki kalkulasi nilai tugas"
+git push
+
+
+php artisan migrate:fresh --seed
