@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EduLearn — Platform Belajar Online</title>
+<title>EduWAS — Education With AI System</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Clash+Display:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
@@ -157,7 +157,7 @@ footer{padding:52px 0 32px;border-top:1px solid var(--border)}
   <div class="nav-inner">
     <div class="nav-logo">
       <div class="nav-logo-icon"><i class="fas fa-graduation-cap"></i></div>
-      <span class="nav-logo-text">EduLearn</span>
+      <div><span class="nav-logo-text">EduWAS</span><p style="font-size:9px;opacity:.55;margin:0;letter-spacing:.3px;line-height:1;font-family:sans-serif;">Education With AI System</p></div>
     </div>
     <div class="nav-links">
       <a href="#features"    class="nav-link">Fitur</a>
@@ -193,7 +193,7 @@ footer{padding:52px 0 32px;border-top:1px solid var(--border)}
             <i class="fas fa-bolt"></i> Platform LMS Modern
           </span>
         </div>
-        <h1 class="hero-title">Belajar Lebih Cerdas,<br><span>Bersama EduLearn</span></h1>
+        <h1 class="hero-title">Belajar Lebih Cerdas,<br><span>Bersama EduWAS</span></h1>
         <p class="hero-desc">Platform manajemen pembelajaran berbasis AI yang menghubungkan mahasiswa dan instruktur dalam ekosistem belajar yang terstruktur, interaktif, dan efisien.</p>
         <div class="hero-actions">
           @auth
@@ -452,7 +452,7 @@ footer{padding:52px 0 32px;border-top:1px solid var(--border)}
     <div class="section-head center aos">
       <div class="section-label"><i class="fas fa-map"></i> Cara Kerja</div>
       <h2 class="section-title">Mulai Belajar dalam 4 Langkah</h2>
-      <p class="section-sub">Proses yang sederhana untuk memulai perjalanan belajarmu di EduLearn.</p>
+      <p class="section-sub">Proses yang sederhana untuk memulai perjalanan belajarmu di EduWAS.</p>
     </div>
     <div class="steps-row">
       @php $steps = [
@@ -478,7 +478,7 @@ footer{padding:52px 0 32px;border-top:1px solid var(--border)}
     <div class="aos">
       <div class="section-label" style="justify-content:center;margin-bottom:18px;"><i class="fas fa-rocket"></i> Mulai Sekarang</div>
       <h2 class="cta-title">Siap Memulai<br><span>Perjalanan Belajarmu?</span></h2>
-      <p style="font-size:16px;color:var(--sub);margin-bottom:36px;">Bergabung bersama ribuan mahasiswa yang sudah merasakan<br>manfaat belajar dengan EduLearn.</p>
+      <p style="font-size:16px;color:var(--sub);margin-bottom:36px;">Bergabung bersama ribuan mahasiswa yang sudah merasakan<br>manfaat belajar dengan EduWAS.</p>
       <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
         @auth
           <a href="{{ Auth::user()->homeRoute() }}" class="btn btn-primary" style="font-size:15px;padding:13px 30px;">
@@ -486,7 +486,7 @@ footer{padding:52px 0 32px;border-top:1px solid var(--border)}
           </a>
         @else
           <a href="{{ route('login') }}" class="btn btn-primary" style="font-size:15px;padding:13px 30px;">
-            <i class="fas fa-sign-in-alt"></i> Masuk ke EduLearn
+            <i class="fas fa-sign-in-alt"></i> Masuk ke EduWAS
           </a>
         @endauth
       </div>
@@ -501,7 +501,7 @@ footer{padding:52px 0 32px;border-top:1px solid var(--border)}
       <div>
         <div class="nav-logo">
           <div class="nav-logo-icon"><i class="fas fa-graduation-cap"></i></div>
-          <span class="nav-logo-text">EduLearn</span>
+          <div><span class="nav-logo-text">EduWAS</span><p style="font-size:9px;opacity:.55;margin:0;letter-spacing:.3px;line-height:1;font-family:sans-serif;">Education With AI System</p></div>
         </div>
         <p class="footer-desc">Platform Learning Management System modern yang membantu institusi pendidikan mengelola proses belajar mengajar secara digital dan efisien.</p>
       </div>
@@ -521,7 +521,7 @@ footer{padding:52px 0 32px;border-top:1px solid var(--border)}
       </div>
     </div>
     <div class="footer-bottom">
-      <span>© {{ date('Y') }} EduLearn. All rights reserved.</span>
+      <span>© {{ date('Y') }} EduWAS. All rights reserved.</span>
       <span style="display:flex;align-items:center;gap:5px;">Dibangun dengan <i class="fas fa-heart" style="color:#f43f5e;font-size:10px;margin:0 2px;"></i> untuk pendidikan</span>
     </div>
   </div>

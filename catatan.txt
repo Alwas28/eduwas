@@ -6,15 +6,17 @@ alert muncul terus walaupun pelanggaran hanya 1 dan bahkan sudah selesai ujian, 
 Untuk ke depannya, setiap kali ada perubahan, cukup jalankan 3 perintah ini:
 
 
+#push ke git
 git add .
 git commit -m "deskripsi perubahan"
 git push
-Atau lebih spesifik hanya file tertentu:
 
-
+#Atau lebih spesifik hanya file tertentu:
 git add app/Http/Controllers/Mahasiswa/NilaiController.php
 git commit -m "fix: perbaiki kalkulasi nilai tugas"
 git push
 
+klik pull/deploy pada git version do hosting 
 
+Kosongkan DB dan jalankan seed
 php artisan migrate:fresh --seed

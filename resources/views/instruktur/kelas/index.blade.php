@@ -38,7 +38,7 @@
     <div>
       <h2 class="font-display font-bold text-[20px]" style="color:var(--text)">Kelas yang Diampu</h2>
       <p class="text-[13px] mt-0.5" style="color:var(--muted)">
-        Daftar seluruh kelas yang Anda ampu di EduLearn
+        Daftar seluruh kelas yang Anda ampu di EduWAS
       </p>
     </div>
   </div>

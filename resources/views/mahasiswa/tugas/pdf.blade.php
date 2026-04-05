@@ -184,7 +184,7 @@ p { margin:.3em 0; }
 @endif
 
 <div class="pdf-footer">
-  Dokumen ini dibuat secara otomatis oleh sistem EduLearn &bull; {{ now()->format('d M Y, H:i') }}
+  Dokumen ini dibuat secara otomatis oleh sistem EduWAS &bull; {{ now()->format('d M Y, H:i') }}
 </div>
 
 </body>

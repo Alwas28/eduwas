@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{ $title ?? 'Akses' }} — EduLearn</title>
+<title>{{ $title ?? 'Akses' }} — EduWAS</title>
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -78,7 +78,7 @@ body{
       style="background:var(--surface2);border-color:var(--border);color:var(--muted)">
       <span style="color:{{ $iconColor ?? 'var(--ac)' }}">{{ $code }}</span>
       <span style="color:var(--border)">·</span>
-      <span>EduLearn</span>
+      <span>EduWAS</span>
     </div>
     @endif
 
@@ -139,7 +139,7 @@ body{
 
 {{-- Footer --}}
 <div class="relative z-10 text-center py-4 border-t" style="border-color:var(--border)">
-  <p class="text-[12px]" style="color:var(--muted)">&copy; {{ date('Y') }} EduLearn. Semua hak dilindungi.</p>
+  <p class="text-[12px]" style="color:var(--muted)">&copy; {{ date('Y') }} EduWAS. Semua hak dilindungi.</p>
 </div>
 
 </body>

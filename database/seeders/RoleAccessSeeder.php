@@ -103,10 +103,10 @@ class RoleAccessSeeder extends Seeder
 
         // ── Admin User ─────────────────────────────────────────
         $adminUser = DB::table('users')->updateOrInsert(
-            ['email' => 'alwas.muis@umkendari.ac.id'],
+            ['email' => 'administrator@umkendari.ac.id'],
             [
-                'name'              => 'Alwas Muis',
-                'email'             => 'alwas.muis@umkendari.ac.id',
+                'name'              => 'Administrator',
+                'email'             => 'administrator@umkendari.ac.id',
                 'password'          => Hash::make('password'),
                 'email_verified_at' => now(),
                 'created_at'        => now(),
@@ -115,7 +115,7 @@ class RoleAccessSeeder extends Seeder
         );
 
         // Ambil id user admin lalu assign role admin
-        $userId = DB::table('users')->where('email', 'alwas.muis@umkendari.ac.id')->value('id');
+        $userId = DB::table('users')->where('email', 'administrator@umkendari.ac.id')->value('id');
         DB::table('user_roles')->updateOrInsert(
             ['user_id' => $userId, 'role_id' => 1]
         );

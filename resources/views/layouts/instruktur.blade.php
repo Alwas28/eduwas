@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>@yield('title', 'Dashboard') — EduLearn Instruktur</title>
+<title>@yield('title', 'Dashboard') — EduWAS Instruktur</title>
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -134,7 +134,7 @@ body.light{
   <div class="flex items-center gap-3 px-5 py-[21px] border-b flex-shrink-0" style="border-color:var(--border)">
     <div class="a-grad w-9 h-9 rounded-[10px] grid place-items-center font-display font-bold text-[15px] text-white">E</div>
     <div>
-      <span class="font-display font-bold text-[18px] tracking-tight" style="color:var(--text)">Edu<span class="a-text">Learn</span></span>
+      <div><span class="font-display font-bold text-[18px] tracking-tight" style="color:var(--text)">Edu<span class="a-text">WAS</span></span><p style="font-size:9px;color:var(--muted);margin:0;letter-spacing:.3px;line-height:1;">Education With AI System</p></div>
       <div class="text-[10px] font-semibold tracking-widest uppercase a-text" style="margin-top:-2px">Instruktur</div>
     </div>
   </div>

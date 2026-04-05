@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>Daftar Akun — EduLearn</title>
+<title>Daftar Akun — EduWAS</title>
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -115,7 +115,7 @@ select.f-input option{background:var(--surface2);color:var(--text)}
   <div class="nav-inner">
     <a href="/" class="nav-logo">
       <div class="nav-logo-icon"><i class="fas fa-graduation-cap"></i></div>
-      <span class="nav-logo-text">EduLearn</span>
+      <span class="nav-logo-text">EduWAS</span><span style="font-size:9px;color:var(--muted);display:block;margin-top:-2px;letter-spacing:.3px;font-family:sans-serif;font-weight:400;">Education With AI System</span>
     </a>
     <div style="display:flex;align-items:center;gap:8px;">
       <span style="font-size:13px;color:var(--muted);">Sudah punya akun?</span>
@@ -136,7 +136,7 @@ select.f-input option{background:var(--surface2);color:var(--text)}
 
     <div class="left-content">
       <h1 class="left-title">Mulai perjalanan<br>belajarmu <span>hari ini</span></h1>
-      <p class="left-desc">Daftarkan dirimu dan akses semua materi, tugas, ujian, dan kelas yang tersedia di EduLearn.</p>
+      <p class="left-desc">Daftarkan dirimu dan akses semua materi, tugas, ujian, dan kelas yang tersedia di EduWAS.</p>
 
       <div>
         <div class="feature-item">
@@ -178,7 +178,7 @@ select.f-input option{background:var(--surface2);color:var(--text)}
       </div>
     </div>
 
-    <p style="font-size:12px;color:var(--muted);position:relative;z-index:1;">&copy; {{ date('Y') }} EduLearn. Semua hak dilindungi.</p>
+    <p style="font-size:12px;color:var(--muted);position:relative;z-index:1;">&copy; {{ date('Y') }} EduWAS. Semua hak dilindungi.</p>
   </div>
 
   {{-- ── RIGHT FORM ── --}}

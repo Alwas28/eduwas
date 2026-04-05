@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kode Verifikasi — EduLearn</title>
+<title>Kode Verifikasi — EduWAS</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Arial,sans-serif;background:#0a0e1a;color:#e2e8f0;line-height:1.6}
@@ -52,7 +52,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#0a0e1a;color:#e2e8f0;li
     <div class="header">
       <div class="logo">
         <div class="logo-icon">🎓</div>
-        <span class="logo-text">EduLearn</span>
+        <span class="logo-text">EduWAS</span><br><span style="font-size:11px;color:rgba(255,255,255,.7);letter-spacing:.3px;">Education With AI System</span>
       </div>
       <div class="header-title">Verifikasi Email Anda</div>
       <div class="header-sub">Masukkan kode berikut untuk mengaktifkan akun</div>
@@ -61,7 +61,7 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#0a0e1a;color:#e2e8f0;li
     <div class="body">
       <p class="greeting">Halo, <strong>{{ $name }}</strong> 👋</p>
       <p class="desc">
-        Terima kasih telah mendaftar di <strong>EduLearn</strong>. Gunakan kode verifikasi di bawah ini untuk mengkonfirmasi alamat email Anda dan mulai belajar.
+        Terima kasih telah mendaftar di <strong>EduWAS</strong>. Gunakan kode verifikasi di bawah ini untuk mengkonfirmasi alamat email Anda dan mulai belajar.
       </p>
 
       <div class="pin-label">Kode Verifikasi 6 Digit</div>
@@ -80,12 +80,12 @@ body{font-family:'Segoe UI',Arial,sans-serif;background:#0a0e1a;color:#e2e8f0;li
 
       <div class="warning">
         <strong>Tidak merasa mendaftar?</strong><br>
-        Jika Anda tidak mendaftar di EduLearn, abaikan email ini. Tidak ada tindakan yang diperlukan dan akun tidak akan aktif tanpa verifikasi.
+        Jika Anda tidak mendaftar di EduWAS, abaikan email ini. Tidak ada tindakan yang diperlukan dan akun tidak akan aktif tanpa verifikasi.
       </div>
     </div>
 
     <div class="footer">
-      <p>© {{ date('Y') }} EduLearn — Universitas Muhammadiyah Kendari<br>
+      <p>© {{ date('Y') }} EduWAS — Universitas Muhammadiyah Kendari<br>
       Email ini dikirim otomatis, mohon tidak membalas email ini.</p>
     </div>
 

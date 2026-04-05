@@ -14,7 +14,7 @@
   </div>
   <div class="relative">
     <h1 class="font-display text-xl md:text-[22px] font-bold mb-1" style="color:var(--text)">Selamat datang kembali, {{ auth()->user()->name }}! 👋</h1>
-    <p class="text-sm" style="color:var(--muted)">Pantau perkembangan platform pembelajaran EduLearn hari ini.</p>
+    <p class="text-sm" style="color:var(--muted)">Pantau perkembangan platform pembelajaran EduWAS hari ini.</p>
   </div>
   <div class="relative hidden md:flex gap-8 flex-shrink-0">
     <div class="text-center"><div class="font-display text-2xl font-bold a-text">0</div><div class="text-[11px] mt-0.5" style="color:var(--muted)">Peserta Aktif</div></div>

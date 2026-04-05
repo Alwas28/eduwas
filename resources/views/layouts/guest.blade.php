@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>{{ config('app.name', 'EduLearn') }}</title>
+<title>{{ config('app.name', 'EduWAS') }}</title>
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -82,7 +82,7 @@ nav{
 <nav>
   <a href="/" class="nav-logo">
     <div class="nav-logo-icon"><i class="fas fa-graduation-cap"></i></div>
-    <span class="nav-logo-text">EduLearn</span>
+    <span class="nav-logo-text">EduWAS</span><span style="font-size:9px;color:var(--muted);display:block;margin-top:-2px;letter-spacing:.3px;font-family:sans-serif;font-weight:400;">Education With AI System</span>
   </a>
 </nav>
 

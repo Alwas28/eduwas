@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="csrf-token" content="{{ csrf_token() }}">
-<title>@yield('title', 'Dashboard') — EduLearn Admin</title>
+<title>@yield('title', 'Dashboard') — EduWAS Admin</title>
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -115,7 +115,7 @@ body.light{
   <!-- Logo -->
   <div class="flex items-center gap-3 px-5 py-[21px] border-b flex-shrink-0" style="border-color:var(--border)">
     <div class="a-grad w-9 h-9 rounded-[10px] grid place-items-center font-display font-bold text-[15px] text-white">E</div>
-    <span class="font-display font-bold text-[18px] tracking-tight" style="color:var(--text)">Edu<span class="a-text">Learn</span></span>
+    <div><span class="font-display font-bold text-[18px] tracking-tight" style="color:var(--text)">Edu<span class="a-text">WAS</span></span><p style="font-size:9px;color:var(--muted);margin:0;letter-spacing:.3px;line-height:1;">Education With AI System</p></div>
   </div>
 
   <!-- Scrollable nav -->
@@ -124,7 +124,7 @@ body.light{
     <p class="text-[10px] font-semibold tracking-[1.3px] uppercase px-2 mt-1 mb-1" style="color:var(--muted)">Utama</p>
     <a href="{{ route('admin.dashboard') }}"
       class="nav-item {{ request()->routeIs('admin.dashboard') ? 'nav-active' : 'nav-inactive' }} flex items-center gap-2.5 px-3 py-[9px] rounded-lg text-[13.5px] font-medium mb-0.5">
-      <i class="fa-solid fa-grid-2 w-4 text-center text-[13px]"></i>Dashboard
+      <i class="fa-solid fa-dashboard w-4 text-center text-[13px]"></i>Dashboard
     </a>
 
     <p class="text-[10px] font-semibold tracking-[1.3px] uppercase px-2 mt-4 mb-1" style="color:var(--muted)">Pengguna</p>
