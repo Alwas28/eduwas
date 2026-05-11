@@ -240,7 +240,7 @@ body.light{
       <i class="fa-solid fa-gear w-4 text-center text-[13px]"></i>Pengaturan
     </a>
     @endcanaccess
-    <a href="#"
+    <a href="{{ route('admin.keamanan.index') }}"
       class="nav-item {{ request()->routeIs('admin.keamanan.*') ? 'nav-active' : 'nav-inactive' }} flex items-center gap-2.5 px-3 py-[9px] rounded-lg text-[13.5px] font-medium mb-0.5">
       <i class="fa-solid fa-shield-halved w-4 text-center text-[13px]"></i>Keamanan
     </a>

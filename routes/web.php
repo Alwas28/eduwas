@@ -21,6 +21,7 @@ use App\Http\Controllers\Mahasiswa\TugasIndividuController as MahasiswaTugasIndi
 use App\Http\Controllers\Mahasiswa\NilaiController as MahasiswaNilai;
 use App\Http\Controllers\Mahasiswa\UjianController as MahasiswaUjian;
 use App\Http\Controllers\Admin\ActivityLogController;
+use App\Http\Controllers\Admin\KeamananController;
 use App\Http\Controllers\Admin\FakultasController;
 use App\Http\Controllers\Admin\EnrollmentController;
 use App\Http\Controllers\Admin\InstrukturController;
@@ -144,6 +145,15 @@ Route::middleware(['auth', 'role:admin,instruktur'])->prefix('admin')->name('adm
 
     Route::get('pengaturan',   [PengaturanController::class, 'index'])  ->middleware('access:lihat.pengaturan')->name('pengaturan.index');
     Route::patch('pengaturan', [PengaturanController::class, 'update']) ->middleware('access:edit.pengaturan') ->name('pengaturan.update');
+
+    // Keamanan & Backup
+    Route::get('keamanan',                             [KeamananController::class, 'index'])           ->name('keamanan.index');
+    Route::post('keamanan/password',                   [KeamananController::class, 'changePassword'])  ->name('keamanan.password');
+    Route::post('keamanan/backup',                     [KeamananController::class, 'backup'])           ->name('keamanan.backup');
+    Route::get('keamanan/backup/{filename}/download',  [KeamananController::class, 'download'])        ->name('keamanan.backup.download');
+    Route::delete('keamanan/backup/{filename}',        [KeamananController::class, 'deleteBackup'])    ->name('keamanan.backup.delete');
+    Route::delete('keamanan/sesi/{sessionId}',         [KeamananController::class, 'terminateSession'])->name('keamanan.sesi.terminate');
+    Route::delete('keamanan/sesi',                     [KeamananController::class, 'terminateAllSessions'])->name('keamanan.sesi.terminateAll');
 
     Route::get('verifikasi',              [\App\Http\Controllers\Admin\VerifikasiController::class, 'index']) ->name('verifikasi.index');
     Route::get('verifikasi/data',         [\App\Http\Controllers\Admin\VerifikasiController::class, 'data'])  ->name('verifikasi.data');

@@ -63,6 +63,73 @@
     @endif
   </div>
 
+  {{-- PG review (only when public & has pg) --}}
+  @if($sesi->nilai_status === 'public' && isset($pgReview) && $pgReview->isNotEmpty())
+  <div>
+    <h2 class="text-base font-bold t-text mb-3">
+      <i class="fas fa-list-ol" style="color:var(--ac);margin-right:6px;"></i>
+      Hasil Pilihan Ganda
+    </h2>
+    @php
+      $pgBenar = $pgReview->where('is_benar', true)->count();
+      $pgTotal = $pgReview->count();
+    @endphp
+    <div class="t-surf border t-border rounded-xl px-4 py-3 mb-4 flex items-center justify-between text-sm">
+      <span class="t-muted">Benar / Total</span>
+      <span class="font-bold" style="color:var(--ac)">{{ $pgBenar }} / {{ $pgTotal }}</span>
+    </div>
+    <div class="space-y-3">
+    @foreach($pgReview as $i => $item)
+    @php
+      $answered = !is_null($item['jawaban_pg']);
+      $statusColor = !$answered ? '#94a3b8' : ($item['is_benar'] ? '#10b981' : '#f87171');
+      $statusIcon  = !$answered ? 'fa-minus-circle' : ($item['is_benar'] ? 'fa-circle-check' : 'fa-circle-xmark');
+    @endphp
+    <div class="rounded-xl border overflow-hidden" style="border-color:{{ $statusColor }}40;background:var(--surface)">
+      <div class="px-4 py-2.5 flex items-center justify-between" style="background:{{ $statusColor }}10">
+        <span style="font-size:12px;font-weight:700;color:var(--muted)">Soal {{ $i + 1 }}</span>
+        <span style="font-size:12px;font-weight:700;color:{{ $statusColor }}">
+          <i class="fas {{ $statusIcon }} mr-1"></i>
+          {{ !$answered ? 'Tidak Dijawab' : ($item['is_benar'] ? 'Benar' : 'Salah') }}
+        </span>
+      </div>
+      <div class="px-4 py-3">
+        <p style="font-size:13.5px;font-weight:600;color:var(--text);margin-bottom:10px;line-height:1.55">
+          {{ $item['soal']->pertanyaan }}
+        </p>
+        <div class="space-y-2">
+        @foreach($item['pilihan'] as $pi => $pilihan)
+        @php
+          $isJawaban = $answered && $item['jawaban_pg'] === $pi;
+          $isBenarPilihan = $pilihan->is_benar ?? false;
+          $bg = $isBenarPilihan ? 'rgba(16,185,129,.1)' : ($isJawaban && !$isBenarPilihan ? 'rgba(248,113,113,.1)' : 'var(--surface2)');
+          $border = $isBenarPilihan ? '#10b981' : ($isJawaban && !$isBenarPilihan ? '#f87171' : 'var(--border)');
+          $textColor = $isBenarPilihan ? '#10b981' : ($isJawaban && !$isBenarPilihan ? '#f87171' : 'var(--sub)');
+        @endphp
+        <div class="flex items-start gap-2.5 rounded-lg px-3 py-2" style="background:{{ $bg }};border:1px solid {{ $border }}">
+          <span style="font-size:12px;font-weight:700;min-width:18px;color:{{ $textColor }}">{{ chr(65+$pi) }}.</span>
+          <span style="font-size:13px;color:{{ $textColor }};flex:1">{{ $pilihan->teks }}</span>
+          @if($isJawaban && !$isBenarPilihan)
+            <i class="fas fa-xmark" style="color:#f87171;font-size:12px;margin-top:2px"></i>
+          @endif
+          @if($isBenarPilihan)
+            <i class="fas fa-check" style="color:#10b981;font-size:12px;margin-top:2px"></i>
+          @endif
+        </div>
+        @endforeach
+        </div>
+        @if(!$answered)
+        <p style="font-size:12px;color:var(--muted);margin-top:8px;font-style:italic">
+          Anda tidak menjawab soal ini.
+        </p>
+        @endif
+      </div>
+    </div>
+    @endforeach
+    </div>
+  </div>
+  @endif
+
   {{-- Essay review (only when public & has essay) --}}
   @if($sesi->nilai_status === 'public' && $essayJawaban->isNotEmpty())
   <div>

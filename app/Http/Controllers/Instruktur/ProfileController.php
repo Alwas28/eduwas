@@ -41,6 +41,8 @@ class ProfileController extends Controller
             'no_hp'              => ['nullable', 'string', 'max:20'],
         ]);
 
+        $originalEmail = $user->email;
+
         $user->update([
             'name'  => $request->name,
             'email' => $request->email,
@@ -56,6 +58,12 @@ class ProfileController extends Controller
             'bidang_keahlian'    => $request->bidang_keahlian,
             'no_hp'              => $request->no_hp,
         ]);
+
+        if ($request->email !== $originalEmail) {
+            $user->forceFill(['email_verified_at' => null])->save();
+            $user->sendEmailVerificationNotification();
+            return redirect()->route('verification.notice');
+        }
 
         return back()->with('status', 'profile-updated');
     }

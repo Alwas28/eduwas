@@ -211,12 +211,39 @@ class UjianController extends Controller
         }
 
         $essayJawaban = collect();
+        $pgReview     = collect();
+
         if ($sesi->nilai_status === 'public') {
-            $essayJawaban = $sesi->jawaban()
-                ->with('soal')
-                ->get()
-                ->filter(fn($j) => $j->soal?->tipe === 'essay')
-                ->values();
+            $allJawaban = $sesi->jawaban()->with('soal.pilihan')->get()->keyBy('bank_soal_id');
+
+            $essayJawaban = $allJawaban->filter(fn($j) => $j->soal?->tipe === 'essay')->values();
+
+            // Bangun review PG dengan urutan dari sesi & pilihan yang di-shuffle
+            $pgItems = collect($sesi->soal_ids)->where('tipe', 'pilihan_ganda');
+            if ($pgItems->isNotEmpty()) {
+                $soalMap = BankSoal::with('pilihan')
+                    ->whereIn('id', $pgItems->pluck('id'))
+                    ->get()->keyBy('id');
+
+                $pgReview = $pgItems->map(function ($item) use ($soalMap, $allJawaban) {
+                    $soal  = $soalMap->get($item['id']);
+                    if (! $soal) return null;
+
+                    $order   = $item['pilihan_order'] ?? range(0, $soal->pilihan->count() - 1);
+                    $pilihan = collect($order)->map(fn($i) => $soal->pilihan->values()->get($i))->filter()->values();
+
+                    $j            = $allJawaban->get($soal->id);
+                    $jawabanIdx   = $j?->jawaban_pg; // index dalam shuffled order
+                    $benar        = $j?->is_benar ?? false;
+
+                    return [
+                        'soal'       => $soal,
+                        'pilihan'    => $pilihan,
+                        'jawaban_pg' => $jawabanIdx, // null = tidak dijawab
+                        'is_benar'   => $benar,
+                    ];
+                })->filter()->values();
+            }
         }
 
         $ujian->loadMissing('instruktur');
@@ -224,7 +251,9 @@ class UjianController extends Controller
         $sapaan = ($instruktur && $instruktur->jenis_kelamin === 'Laki-laki') ? 'Pak' : 'Bu';
         $namaInstruktur = $instruktur->nama ?? '';
 
-        return view('mahasiswa.ujian.selesai', compact('ujian', 'sesi', 'essayJawaban', 'sapaan', 'namaInstruktur'));
+        return view('mahasiswa.ujian.selesai', compact(
+            'ujian', 'sesi', 'essayJawaban', 'pgReview', 'sapaan', 'namaInstruktur'
+        ));
     }
 
     /** AJAX: record pelanggaran */
@@ -250,7 +279,7 @@ class UjianController extends Controller
 
         $sesi->increment('pelanggaran');
 
-        return response()->json(['ok' => true, 'total' => $sesi->pelanggaran + 1]);
+        return response()->json(['ok' => true, 'total' => $sesi->pelanggaran]);
     }
 
     /** AJAX: keep session alive */
@@ -324,37 +353,43 @@ class UjianController extends Controller
 
     private function hitungNilaiPg(UjianSesi $sesi): ?float
     {
-        $sesi->load('ujian', 'jawaban');
-        $jawabans = $sesi->jawaban()->with('soal.pilihan')->get();
+        $sesi->load('ujian');
 
-        if ($jawabans->isEmpty()) return null;
+        // Ambil SEMUA soal PG dari sesi (termasuk yang tidak dijawab)
+        $pgItems = collect($sesi->soal_ids)->where('tipe', 'pilihan_ganda');
+        if ($pgItems->isEmpty()) return null;
 
-        $totalBobot = 0;
+        $allPgSoal = BankSoal::with('pilihan')
+            ->whereIn('id', $pgItems->pluck('id'))
+            ->get()
+            ->keyBy('id');
+
+        // Total bobot dari SEMUA soal PG dalam ujian (bukan hanya yang dijawab)
+        $totalBobot = $allPgSoal->sum(fn($s) => $s->bobot ?? 1);
+        if ($totalBobot == 0) return null;
+
         $totalBenar = 0;
+        $jawabans   = $sesi->jawaban()->get()->keyBy('bank_soal_id');
 
-        foreach ($jawabans as $j) {
-            $soal = BankSoal::with('pilihan')->find($j->bank_soal_id);
-            if (! $soal || $soal->tipe !== 'pilihan_ganda') continue;
+        foreach ($allPgSoal as $soal) {
+            $j     = $jawabans->get($soal->id);
+            $order = $pgItems->firstWhere('id', $soal->id)['pilihan_order']
+                     ?? range(0, $soal->pilihan->count() - 1);
 
-            $totalBobot += $soal->bobot ?? 1;
-
-            // Find the soal's pilihan_order from sesi
-            $soalItem = collect($sesi->soal_ids)->firstWhere('id', $soal->id);
-            $order    = $soalItem['pilihan_order'] ?? range(0, $soal->pilihan->count() - 1);
-
-            // jawaban_pg is the index in the SHUFFLED order
-            if (is_null($j->jawaban_pg)) continue;
+            // Soal tidak dijawab = salah
+            if (! $j || is_null($j->jawaban_pg)) {
+                $j?->update(['is_benar' => false, 'nilai' => 0]);
+                continue;
+            }
 
             $originalIdx = $order[$j->jawaban_pg] ?? null;
-            if (is_null($originalIdx)) continue;
-
-            $pilihan = $soal->pilihan->values()->get($originalIdx);
-            $benar   = $pilihan && $pilihan->is_benar;
+            $pilihan     = $originalIdx !== null ? $soal->pilihan->values()->get($originalIdx) : null;
+            $benar       = $pilihan && $pilihan->is_benar;
 
             $j->update(['is_benar' => $benar, 'nilai' => $benar ? ($soal->bobot ?? 1) : 0]);
             if ($benar) $totalBenar += $soal->bobot ?? 1;
         }
 
-        return $totalBobot > 0 ? round(($totalBenar / $totalBobot) * 100, 2) : null;
+        return round(($totalBenar / $totalBobot) * 100, 2);
     }
 }

@@ -28,16 +28,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        $user = auth()->user();
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
 
         if (! $user->hasVerifiedEmail()) {
-            Auth::guard('web')->logout();
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
-
-            return back()->withErrors([
-                'email' => 'Email belum diverifikasi. Silakan cek kotak masuk email Anda untuk kode PIN verifikasi.',
-            ])->onlyInput('email');
+            // Kirim PIN baru dan arahkan ke halaman verifikasi (tetap login)
+            $user->sendEmailVerificationNotification();
+            return redirect()->route('verification.notice');
         }
 
         return redirect()->intended($user->homeRoute());

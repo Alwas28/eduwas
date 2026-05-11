@@ -458,8 +458,13 @@ function markAnswered(soalId, answered = true) {
 }
 
 // ── Violation ───────────────────────────────────────────────────
+let violationCooldown = false;
+
 async function recordViolation(tipe, catatan) {
-  if (isSubmitted) return;
+  if (isSubmitted || violationCooldown) return;
+  violationCooldown = true;
+  setTimeout(() => { violationCooldown = false; }, 3000); // cooldown 3 detik
+
   try {
     const res  = await fetch(urlViolation, {
       method: 'POST',

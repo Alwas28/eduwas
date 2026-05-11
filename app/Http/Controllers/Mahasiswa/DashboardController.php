@@ -95,6 +95,8 @@ class DashboardController extends Controller
             'alamat'        => ['nullable', 'string', 'max:500'],
         ]);
 
+        $originalEmail = $user->email;
+
         $user->update([
             'name'  => $request->nama,
             'email' => $request->email,
@@ -109,6 +111,12 @@ class DashboardController extends Controller
             'no_hp'         => $request->no_hp,
             'alamat'        => $request->alamat,
         ]);
+
+        if ($request->email !== $originalEmail) {
+            $user->forceFill(['email_verified_at' => null])->save();
+            $user->sendEmailVerificationNotification();
+            return redirect()->route('verification.notice');
+        }
 
         return back()->with('status', 'profile-updated');
     }

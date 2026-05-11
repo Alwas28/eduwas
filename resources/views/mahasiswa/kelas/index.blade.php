@@ -347,20 +347,136 @@ function switchQrTab(tab) {
 }
 
 function startCamera() {
-  const video   = document.getElementById('qr-video');
-  const offEl   = document.getElementById('camera-off');
+  const video = document.getElementById('qr-video');
+  const offEl = document.getElementById('camera-off');
   offEl.style.display = 'none';
-  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+    offEl.style.display = 'flex';
+    showCameraAlert('not-supported');
+    return;
+  }
+
+  // Coba kamera belakang dulu, fallback ke kamera manapun jika gagal
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' } } })
+    .catch(() => navigator.mediaDevices.getUserMedia({ video: true }))
     .then(stream => {
       qrStream = stream;
       video.srcObject = stream;
       video.play();
+      offEl.style.display = 'none';
       requestAnimationFrame(scanFrame);
     })
-    .catch(() => {
+    .catch(err => {
       offEl.style.display = 'flex';
-      setQrStatus('Kamera tidak bisa diakses. Gunakan tab Upload Gambar.', 'error');
+      if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+        showCameraAlert('denied');
+      } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+        showCameraAlert('not-found');
+      } else {
+        showCameraAlert('error');
+      }
     });
+}
+
+function showCameraAlert(type) {
+  const configs = {
+    'denied': {
+      icon: 'fa-camera-slash',
+      iconBg: 'rgba(251,146,60,.15)',
+      iconColor: '#fb923c',
+      title: 'Izin Kamera Diperlukan',
+      desc: 'Browser memblokir akses kamera. Untuk menggunakan fitur scan QR, izinkan akses kamera terlebih dahulu.',
+      steps: [
+        '<i class="fa-solid fa-lock" style="color:#fb923c;width:14px"></i> Klik ikon kunci/info di address bar browser',
+        '<i class="fa-solid fa-toggle-on" style="color:#34d399;width:14px"></i> Ubah izin <strong>Kamera</strong> menjadi <strong>Izinkan</strong>',
+        '<i class="fa-solid fa-rotate-right" style="color:#818cf8;width:14px"></i> Refresh halaman lalu coba scan lagi',
+      ],
+      retryBtn: true,
+    },
+    'not-found': {
+      icon: 'fa-video-slash',
+      iconBg: 'rgba(248,113,113,.15)',
+      iconColor: '#f87171',
+      title: 'Kamera Tidak Ditemukan',
+      desc: 'Perangkat Anda tidak memiliki kamera yang dapat digunakan. Gunakan fitur upload gambar sebagai alternatif.',
+      steps: [],
+      retryBtn: false,
+    },
+    'not-supported': {
+      icon: 'fa-circle-xmark',
+      iconBg: 'rgba(248,113,113,.15)',
+      iconColor: '#f87171',
+      title: 'Browser Tidak Didukung',
+      desc: 'Browser Anda tidak mendukung akses kamera. Gunakan Chrome atau Firefox versi terbaru.',
+      steps: [],
+      retryBtn: false,
+    },
+    'error': {
+      icon: 'fa-triangle-exclamation',
+      iconBg: 'rgba(251,146,60,.15)',
+      iconColor: '#fb923c',
+      title: 'Gagal Mengakses Kamera',
+      desc: 'Terjadi kesalahan saat mencoba membuka kamera. Pastikan tidak ada aplikasi lain yang sedang menggunakan kamera.',
+      steps: [],
+      retryBtn: true,
+    },
+  };
+
+  const c = configs[type] || configs['error'];
+  const stepsHtml = c.steps.length
+    ? `<div style="margin:12px 0;text-align:left;background:rgba(255,255,255,.05);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:8px">
+        ${c.steps.map(s => `<div style="font-size:12px;color:rgba(255,255,255,.75);display:flex;align-items:flex-start;gap:8px">${s}</div>`).join('')}
+       </div>`
+    : '';
+
+  const retryHtml = c.retryBtn
+    ? `<button onclick="hideCameraAlert();startCamera()"
+        style="flex:1;padding:10px 0;border-radius:10px;border:none;background:rgba(99,102,241,.2);color:#818cf8;font-size:13px;font-weight:600;cursor:pointer">
+        <i class="fa-solid fa-rotate-right mr-1.5"></i>Coba Lagi
+       </button>`
+    : '';
+
+  document.getElementById('camera-alert-content').innerHTML = `
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="width:60px;height:60px;border-radius:18px;background:${c.iconBg};display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px">
+        <i class="fa-solid ${c.icon}" style="font-size:24px;color:${c.iconColor}"></i>
+      </div>
+      <h3 style="font-size:16px;font-weight:700;color:#fff;margin:0 0 6px">${c.title}</h3>
+      <p style="font-size:12.5px;color:rgba(255,255,255,.55);line-height:1.55;margin:0">${c.desc}</p>
+    </div>
+    ${stepsHtml}
+    <div style="display:flex;gap:8px;margin-top:4px">
+      ${retryHtml}
+      <button onclick="hideCameraAlert();switchQrTab('upload')"
+        style="flex:1;padding:10px 0;border-radius:10px;border:none;background:rgba(52,211,153,.15);color:#34d399;font-size:13px;font-weight:600;cursor:pointer">
+        <i class="fa-solid fa-image mr-1.5"></i>Upload Gambar
+      </button>
+    </div>
+    <button onclick="hideCameraAlert()"
+      style="width:100%;margin-top:8px;padding:9px 0;border-radius:10px;border:1px solid rgba(255,255,255,.1);background:transparent;color:rgba(255,255,255,.4);font-size:12.5px;cursor:pointer">
+      Tutup
+    </button>
+  `;
+
+  document.getElementById('camera-alert').style.display = 'flex';
+  // Animasi masuk
+  const box = document.getElementById('camera-alert-box');
+  box.style.transform = 'scale(.92)';
+  box.style.opacity = '0';
+  requestAnimationFrame(() => {
+    box.style.transition = 'transform .2s ease,opacity .2s ease';
+    box.style.transform = 'scale(1)';
+    box.style.opacity = '1';
+  });
+}
+
+function hideCameraAlert() {
+  const alert = document.getElementById('camera-alert');
+  const box   = document.getElementById('camera-alert-box');
+  box.style.transform = 'scale(.92)';
+  box.style.opacity   = '0';
+  setTimeout(() => { alert.style.display = 'none'; }, 180);
 }
 
 function stopCamera() {
@@ -694,4 +810,13 @@ function resetUpload() {
 </div>
 
 <script src="{{ asset('js/jsqr.js') }}"></script>
+
+{{-- Camera Permission Alert --}}
+<div id="camera-alert"
+  style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.65);backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:20px">
+  <div id="camera-alert-box"
+    style="width:100%;max-width:340px;background:#1a1a2e;border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:24px;box-shadow:0 24px 60px rgba(0,0,0,.5)">
+    <div id="camera-alert-content"></div>
+  </div>
+</div>
 @endpush
